@@ -1,7 +1,7 @@
 # koa2-simple-server
 
 
-koa2 mysql mongoose redis websocket log4js winston
+koa2 mysql mongoose redis websocket log4js winston typescript
 
 ```
 npm install
@@ -14,10 +14,13 @@ npm run pm2-start:watch
 // 查看日志
 pm2 log
 
-
 ```
 
+#### 修改数据库配置
+src/config/dbConfig.ts
+
 CURL测试- http://127.0.0.1:2333/api/v1/koa/mobile?name=华为
+
 
 
 TODO: 开发环境开启日志，生产关闭(占用内存)
@@ -63,7 +66,6 @@ export default WebSocket
 
 
 ```
-
 
 ##### TIPS
 
