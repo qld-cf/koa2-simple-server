@@ -1,8 +1,27 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const log4js = require("log4js");
-const methods = ["trace", "debug", "info", "warn", "error", "fatal", "mark"];
-const contextLogger = {};
+var log4js = __importStar(require("log4js"));
+var methods = ["trace", "debug", "info", "warn", "error", "fatal", "mark"];
+var contextLogger = {};
 log4js.configure({
     appenders: {
         console: {
@@ -22,11 +41,11 @@ log4js.configure({
     },
     categories: { default: { appenders: ['cheese', 'console'], level: 'info' } }
 });
-const bindLog = function () {
-    const logger = log4js.getLogger('cheese');
+var bindLog = function () {
+    var logger = log4js.getLogger('cheese');
     // 循环 methods 将所有方法挂载到ctx 上
-    methods.forEach((method) => {
-        contextLogger[method] = (message) => {
+    methods.forEach(function (method) {
+        contextLogger[method] = function (message) {
             logger[method](message);
         };
     });

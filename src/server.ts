@@ -1,25 +1,23 @@
-import * as Koa from "koa" // koa框架
-import getConfig from "./config"
+import Koa from "koa"
 import * as http from "http"
-import * as socketIO from "socket.io"
 import globalLogger from "./utils/logger/globalLog"
 import log from "./middleware/log"
-// 路由分发
-import routerMount from "./router/index"
-
 // 中间件
 import cors from "./middleware/cors"
-import * as bodyParser from "koa-bodyparser"
+import bodyParser from "koa-bodyparser"
+import koaStatic from "koa-static"
+import path from "path"
+import router from "./router"
+import APP_GLOBAL_CONFIG from "./config/common"
+import socketIO from "socket.io"
 
-const app = new Koa() // 新建一个koa应用
+const app = new Koa()
 const env = process.env.NODE_ENV
-const PORT: number | string = getConfig(env).basePort
+const PORT: number | string = APP_GLOBAL_CONFIG.APP_PORT
 const server = http.createServer(app.callback())
-// const io = socketIO(server, { pingInterval: 20000 })
-const io = socketIO(server)
 
+const io = socketIO(server, { pingInterval: 20000 })
 let interval: NodeJS.Timeout
-
 io.on("connection", (socket) => {
   console.log("New client connected")
   if (interval) {
@@ -39,14 +37,20 @@ const getApiAndEmit = (socket: socketIO.Socket) => {
   socket.emit("FromAPI", response)
 }
 
+const staticPath = "../static"
+
+// 使用中间件
 app.use(cors)
 app.use(log())
 app.use(bodyParser())
-routerMount(app)
+app.use(koaStatic(path.join(__dirname, staticPath)))
+app.use(router.routes())
 
+// routerMount(app)
 globalLogger()
 
-const _server = app.listen(PORT) // 监听应用端口
+// 监听应用端口
+const _server = app.listen(PORT)
 
 server.listen(_server) // 监听socket端口 必须要监听该端口服务 不然405
 // server.listen(getConfig(env).baseSocketPort) // 监听socket端口

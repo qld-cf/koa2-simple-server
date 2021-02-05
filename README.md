@@ -1,28 +1,29 @@
-# koa2 + typescript + websocket + redis + log4js
+# koa2-simple-server
 
-## 一、说明
 
-> - cors 跨域处理
-> - redis
-> - websocket
-> - log4js: 日志中间件
-
-## 二、使用
+koa2 mysql mongoose redis websocket log4js winston
 
 ```
 npm install
-
 // 本地热加载开发
 npm run dev
 // 构建成js
 npm run build
 // 线上启动 pm2或run dev
 npm run pm2-start:watch
+// 查看日志
+pm2 log
 
 
 ```
 
-#### 前端使用
+CURL测试- http://127.0.0.1:2333/api/v1/koa/mobile?name=华为
+
+
+TODO: 开发环境开启日志，生产关闭(占用内存)
+TODO: mogno和redis 引入和实例创建
+
+###### websocket 前端使用
 
 ```
 import React, { useEffect, useState } from 'react'
@@ -62,3 +63,8 @@ export default WebSocket
 
 
 ```
+
+
+##### TIPS
+
+- run server: 提示server option错误,注意是否pm2已经启动实例
